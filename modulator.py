@@ -1,6 +1,11 @@
 import soundfile as sf
 import sounddevice as sd
 import os
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+from scipy.fftpack import fft, fftshift
+from scipy import signal as sg
 
 
 
@@ -9,21 +14,50 @@ class Noiszes:
     def __init__(self):
 
             self.fs = 44100
+            self.wav = None
 
     def playSound(self,sound,looping = False, wait = True):
             print("playing audio")
             sd.play(sound, self.fs,loop = looping)
             if(wait):
                 sd.wait()
+    def calcFFT(self,signal, fs):
+        # https://docs.scipy.org/doc/scipy/reference/tutorial/fftpack.html
+        #y  = np.append(signal, np.zeros(len(signal)*fs))
+        N  = len(signal)
+        T  = 1.0/fs
+        print("AAAAA")
+        print(signal[0])
+        print(len(signal))
+        print(T)
+        xf = np.linspace(-1.0/(2.0*T), 1.0/(2.0*T), N)
+        print("AZUL")
+        yf = fft(signal)
+        print("AZULado")
+        return(xf, fftshift(yf))
 
     def gravar(self, tempo):
             audio = sd.rec(int(tempo*self.fs), self.fs, channels=1)
             sd.wait()
-            audio = audio[:,0]
+            self.wav = audio
+            self.fs,audio = audio
             return audio
+    
+    def LPF(self,signal, cutoff_hz, fs):
+            #####################
+            # Filtro
+            #####################
+            # https://scipy.github.io/old-wiki/pages/Cookbook/FIRFilter.html
+            nyq_rate = fs/2
+            width = 5.0/nyq_rate
+            ripple_db = 60.0 #dB
+            N , beta = sg.kaiserord(ripple_db, width)
+            taps = sg.firwin(N, cutoff_hz/nyq_rate, window=('kaiser', beta))
+            return( sg.lfilter(taps, 1.0, signal))
+        
 
-    #def Modular(self, audio):
-            
+    def Modular(self, audio):
+            print("AHOIZ")
 
 
 
@@ -61,9 +95,11 @@ class Noiszes:
                 try:
                     try:
                         print("\nlOADING BY INDEX")
-                        audio, self.fs = sf.read("Saves/" + fileList[int(choice)]);
+                        self.wav = sf.read("Saves/" + fileList[int(choice)]);
+                        audio,self.fs = self.wav
                     except:
-                        audio, self.fs = sf.read("Saves/" + choice + ".wav");
+                        self.wav = sf.read("Saves/" + choice + ".wav");
+                        audio,self.fs = self.wav
                     print('\nCarregado!\nAgora o que deseja fazer?')
                     break
                 except:
@@ -72,19 +108,50 @@ class Noiszes:
             print('Opa, algo esta errado com sua escolha!')
             return
         while(True):
-            print('1- Savar\n2- Reproduzir')
+            print('1- Savar\n2- Reproduzir \n3- plotar grafico \n4- Modularizar\n 5- Tentar novamente')
             choice = raw_input()
             if(choice == '1'):
                 print("Com qual nome devemos gravar")
                 name = raw_input()
                 self.escrever(name, audio)
                 print("Salvo como: " + name )
-            if(choice == '2'):
+            elif(choice == '2'):
                 print("Reproduzindo")
                 self.playSound(audio, wait = False)
                 print("Para parar aperte ENTER" )
                 raw_input()
                 sd.stop()
+            elif(choice == '3'):
+                print('\nAplicar transformada de fourier ? (Y ou N)')
+                ft = raw_input()
+                if(ft == 'y'):
+                    fftAudio = self.calcFFT(self.wav, self.fs)
+                    print(fftAudio)
+                    print(len(fftAudio[0]))
+                    plt.plot(fftAudio[0],fftAudio[1]) 
+                    plt.title('Recebido', fontsize=18)
+                    plt.xlabel('Frequencia (Hz)', fontsize=16)
+                    plt.ylabel('Energia', fontsize=16)
+                    plt.show()
+                elif(ft == 'n'):
+                    print('mostrar um zoom do grafico ? (Y ou N)')
+                    zoom = raw_input()
+                    plt.plot(np.arange(len(audio) if zoom == 'n' else 1000),audio if zoom == 'n' else audio[40000:41000])
+                    plt.show()
+                else:
+                    print('opcaoo invalida')
+            elif(choice == '4'):
+                print("\nModularizando com passa baixa")
+                audio = self.LPF(audio,2000,self.fs)
+                print('Modularizado!\nQuer reprouzir? (Y ou N)')
+                choice = raw_input()
+                if(choice == 'y' or choice == 'Y'):
+                    self.playSound(audio, wait = False)
+                    print("Para parar aperte ENTER" )
+                    raw_input()
+                    sd.stop()
+            elif(choice == '5'):
+                return
             else:
                 print("\nalgo errado com a sua escolha\n")
 
