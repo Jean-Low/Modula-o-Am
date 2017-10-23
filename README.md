@@ -29,7 +29,7 @@ Contudo, o código permite que o usuário defina a frequência de corte que irá
 
 ## Gráficos
 
-
+|----------------------------------------------|
 | Sinal normal  |  Transmitido       | Recebido        |
 |x      | ![1](graficos/woahtransm.jpg)        |![1](graficos/woahreceb.png)      |
 |  Fourier de um dos sinais  |  Transmitido       | Recebido        |
