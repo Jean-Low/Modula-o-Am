@@ -46,4 +46,5 @@ Contudo, o código permite que o usuário defina a frequência de corte que irá
 
 ## Comparação entre enviado e recebido
 
+O audio recebido tem volume mais baixo que o audio originalmente gravado. Isso se deve à aplicação do filtro passa baixa e também ao fato do sinal ter sido transmitido em um ambiente não ideal, onde há dissipação e perdas de energia, além do microfone também não ser ideal.
 
