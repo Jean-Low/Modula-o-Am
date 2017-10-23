@@ -27,7 +27,7 @@ Devido ao fato da frequência de corte (apresentada nos gráficos) ser de 2000Hz
 Contudo, o código permite que o usuário defina a frequência de corte que irá utilizar, o que consequentemente, afetará o tamanho da banda. Em termos gerais, a banda é equivalente a 2 vezes a frequência de corte. 
 
 
-## Gráficos
+## Gráficos (ignore os titulos nos próprios plots)
 | Grafico   | Sinal Transmitido       |Sinal Recebido        |
  |:-----:|-------------------------|----------------------|
  | Normal  | Transmitido       | Recebido        |
