@@ -30,13 +30,11 @@ Contudo, o código permite que o usuário defina a frequência de corte que irá
 ## Gráficos
 
 
-| Grafico   | Sinal Transmitido       |Sinal Recebido        |
-|:-----:|-------------------------|----------------------|
-| Normal  | Transmitido       | Recebido        |
+| Sinal normal  |  Transmitido       | Recebido        |
 |x      | ![1](graficos/woahtransm.jpg)        |![1](graficos/woahreceb.png)      |
 |  Fourier de um dos sinais  |  Transmitido       | Recebido        |
 |x      | ![2](graficos/woahfutransm.jpg)        |![2](graficos/woahfureceb.png)      |
-| Fourier dos sinais combinados   | Sinal Transmitido       |Sinal Recebido        |
+| Fourier dos sinais combinados   |  Transmitido       | Recebido        |
 |x      | ![3](graficos/woahcombfutransm.jpg)        |![3](graficos/woahcombfu.png)      |
 
 
