@@ -5,7 +5,9 @@ Por Jean Luca e Pedro de la Peña
 ## Modulação  
 
 A modulação consiste na multiplicação de um sinal por uma portadora, dada pela fórmula
-| p(t) = A*cos(2πf*t) | 
+
+p(t) = A*cos(2πf*t)
+
 sendo A a amplitude, fc a frequencia arbitrária da portadora e t o tempo.
 
 Ao realizar a modulação, torna-se possível enviar mais um sinal em um mesmo meio. Contudo, no final da recepção é preciso que ocorra uma demodulação para recuperar os áudios originais. O processo consiste na multiplicação pela portadora anteriormente utilizada. 
@@ -13,6 +15,7 @@ Ao realizar a modulação, torna-se possível enviar mais um sinal em um mesmo m
 ## Portadoras utilizadas
 
 A freqquência de corte utilizada foi de 2000Hz. Levando isso em conta, as frequências das duas portadoras utilizadas deveriam ser maiores que o valor de corte e devem ser inferiores ao valor de 22050Hz, metade do valor da frequência de amostragem. Contudo, levamos em conta valores até 18000Hz pois os microfones imbutidos nos (nossos) notebooks não são muito eficazes quando expostos a frequências superiores à estas.
+
 Além disso, as frequências das portadoras não podem ser muito próximas umas das oturas para não se misturarem e impossibilitarem os audios originais de serem recuperados no final do processo de recepção. 
 Isto posto, temos as frequências de () ().
 
