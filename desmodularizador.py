@@ -66,20 +66,12 @@ class Noiszes:
             return( sg.lfilter(taps, 1.0, signal))
         
 
-    def Somar(self, audio, audio2):
-        listavazia= []
-        if len(audio) > len(audio2):
-            for v in range(len(audio)-len(audio2)):
-                listavazia.append(0)
-            audio2 = np.concatenate([audio2,listavazia])
-            return audio + audio2
-        elif len(audio2) > len(audio):
-            for v in range(len(audio2)- len(audio)):
-                listavazia.append(0)
-            audio = np.concatenate([audio,listavazia])
-            return audio + audio2
-        else:
-            return audio + audio2
+    def Modular(self, audio):
+            print("AHOIZ")
+
+
+
+
     #isto transforma uma lista em .wav
     def escrever(self, nome_do_arquivo, som):
             sf.write('Saves/' + nome_do_arquivo + ".wav", som, self.fs)
@@ -99,11 +91,9 @@ class Noiszes:
             print('Os seguintes arquivos foram encontrados:')
             fileList = []
             count = 0
-
-            fileList2 = []
-            count2 = 0
-
             for i in sorted(os.listdir('Saves')):
+                
+
 
                 print(str(count) + ' - ' + i)
                 fileList.append(i)
@@ -125,41 +115,10 @@ class Noiszes:
                         audio = self.wav
                         if(not isinstance(self.wav[0], float)):
                             audio = self.wav[:,0]
-
-                    break
-                except:
-                    print('arquivo requisitado nao existe!!!\n')
-
-            print('Os seguintes arquivos foram encontrados:')
-            for i in sorted(os.listdir('Saves')):
-
-                print(str(count2) + ' - ' + i)
-                fileList.append(i)
-                count2+= 1
-
-            while(True):
-                print('Escolha o arquivo: (Sem o .wav)')
-                choice = input()
-                try:
-                    if(choice.isdigit()):
-                        print("\nLOADING BY INDEX")
-                        self.wav, self.fs= sf.read("Saves/" + fileList[int(choice)]);
-                        audio2 = self.wav
-                        if(not isinstance(self.wav[0], float)):
-                            audio2 = self.wav[:,0]
-                    else:
-                        print('\nLOADING BY NAME')
-                        self.wav, self.fs = sf.read("Saves/" + choice + ".wav");
-                        audio2 = self.wav
-                        if(not isinstance(self.wav[0], float)):
-                            audio2 = self.wav[:,0]
-
-                    break
                     print('\nCarregado!\nAgora o que deseja fazer?')
-                    
+                    break
                 except:
                     print('arquivo requisitado nao existe!!!\n')
-            audio = self.Somar(audio, audio2)
         else:
             print('Opa, algo esta errado com sua escolha!')
             return
@@ -198,11 +157,11 @@ class Noiszes:
                     print('opcaoo invalida')
             elif(choice == '4'):
                 print("\nModularizando com passa baixa")
-                audio = self.LPF(audio,2000,self.fs)
                 print(len(self.wav))
                 print(len(self.wav) / self.fs)
                 self.ts = np.linspace(0,self.temposapo,self.fs*(len(self.wav) / self.fs))
                 audio = audio*np.sin(2*math.pi*7000*self.ts)
+                audio = self.LPF(audio,2000,self.fs)
                 print('Modularizado!\nQuer reprouzir? (Y ou N)')
                 choice = input()
                 if(choice == 'y' or choice == 'Y'):
